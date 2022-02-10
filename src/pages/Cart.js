@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
+import { Box, Typography } from '@material-ui/core';
 
 function Cart() {
     const [data, setData] = useState([])
@@ -10,25 +11,28 @@ function Cart() {
             setData(res.data)
         })
 
-        const newData = localStorage.getItem("AddedToCart");
+        setLocalData(localStorage.getItem("AddedToCart"));
 
-        setLocalData(_.uniq(newData));
+        // setLocalData(_.uniq(newData));
 
     }, [])
 
-    console.log("this is local data", localData)
+
+    const addToCart = data.filter(item => localData.includes(item.id));
+    console.log("this is cart", addToCart)
+
+
     return (
         <div>
             {
-                data.filter(item=> item.id ===localData[0]).map(item => {
+                data.filter(item => localData.includes(item.id)).map(item => {
                     return (
-                        <div>
-                            <img src={item.image} alt="product" />
-                            <div>
-                                <p>{item.title}</p>
-                                <p>{item.price}</p>
-                            </div>
-                        </div>
+                        <Box p={2} sx={{justifyContent:'flex-start',alignItems:'center'}} display="flex">
+                            <img style={{ width: '10%' }} src={item.image} alt="product" />
+                            <Typography>{item.title}</Typography>
+                            <Typography>{item.price}</Typography>
+
+                        </Box>
                     )
                 })}
         </div>
