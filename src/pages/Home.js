@@ -59,21 +59,20 @@ function Home() {
         })
     }, [])
 
-    const addToCart = (title, price) => {
+    const addToCart = (id) => {
 
 
-        // const new_data1 = title;
-        // const new_data2 = price;
-        // if (localStorage.getItem('AddedToCart') === null) {
-        //     localStorage.setItem('AddedToCart', '[]')
-        // }
+        const new_data = id;
+        if (localStorage.getItem('AddedToCart') === null) {
+            localStorage.setItem('AddedToCart', '[]')
+        }
 
-        // const old_data = JSON.parse(localStorage.getItem('AddedToCart'))
-        // old_data.push(new_data1, new_data2);
-
+        const old_data = JSON.parse(localStorage.getItem('AddedToCart'))
+        old_data.push(new_data);
 
 
-        // localStorage.setItem('AddedToCart', JSON.stringify(old_data));
+
+        localStorage.setItem('AddedToCart', JSON.stringify(old_data));
     }
 
 
@@ -97,8 +96,8 @@ function Home() {
                             </CardContent>
                             <CardActions>
                                 <Button onClick={() => {
-                                    // setLocalData(product.id);
-                                    addToCart(product.title, product.price);
+                                    setLocalData(product.id);
+                                    addToCart(product.id);
                                 }} variant="contained" className={classes.button} size="small"><Typography>ADD TO CART</Typography></Button>
                             </CardActions>
                         </Card>
