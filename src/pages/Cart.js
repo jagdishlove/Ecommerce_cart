@@ -6,7 +6,7 @@ function Cart() {
     const [data, setData] = useState([])
     const [localData, setLocalData] = useState();
     useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/${1}`).then(res => {
+        axios.get(`https://fakestoreapi.com/products/`).then(res => {
             setData(res.data)
         })
 
@@ -20,7 +20,7 @@ function Cart() {
     return (
         <div>
             {
-                data.map(item => {
+                data.filter(item=> item.id ===localData[0]).map(item => {
                     return (
                         <div>
                             <img src={item.image} alt="product" />
