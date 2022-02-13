@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Backdrop, Box, Button, makeStyles, Modal, Typography } from '@material-ui/core'
 import CartIncreaser from './CartIncreaser';
 import CloseIcon from '@material-ui/icons/Close';
@@ -35,10 +35,19 @@ const style = {
 
 function DetailsModal({ open, handleClose, getModal }) {
     const classes = useStyles()
+    const [cartCount, setCartCount] = useState()
 
-    // useEffect(() => {
-    //     console.log(getModal.title)
-    // }, [getModal])
+    const addToCart = (e, id, count, image, title) => {
+        e.preventDefault();
+        const new_data = { 'id': id, 'count': count, 'image': image, 'title': title };
+        if (localStorage.getItem('AddedToCart') === null) {
+            localStorage.setItem('AddedToCart', '[]')
+        }
+        const old_data = JSON.parse(localStorage.getItem('AddedToCart'))
+        old_data.push(new_data);
+        localStorage.setItem('AddedToCart', JSON.stringify(old_data));
+
+    }
 
     return (
         <Modal
@@ -61,12 +70,21 @@ function DetailsModal({ open, handleClose, getModal }) {
                 <Typography variant="h5" sx={{ mt: 2 }}>
                     {getModal.title}
                 </Typography>
-                <CartIncreaser />
-                <Button onClick={""} className={classes.button} variant="contained" size="small"><Typography>ADD TO CART</Typography></Button>
-
-
+                <CartIncreaser setCartCount={setCartCount} />
+                <Button
+                    onClick={(e) => {
+                        addToCart(e, getModal.id, cartCount, getModal.image, getModal.title);
+                        alert("product added to cart");
+                        handleClose(false);
+                        // setHideAddToCart(true);
+                    }}
+                    className={classes.button}
+                    variant="contained"
+                    size="small">
+                    <Typography>ADD TO CART</Typography>
+                </Button>
             </Box>
-        </Modal>
+        </Modal >
     )
 }
 

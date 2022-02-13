@@ -63,27 +63,11 @@ function Home() {
         })
     }, [])
 
-    const addToCart = (id) => {
-
-
-        const new_data = id;
-        if (localStorage.getItem('AddedToCart') === null) {
-            localStorage.setItem('AddedToCart', '[]')
-        }
-
-        const old_data = JSON.parse(localStorage.getItem('AddedToCart'))
-        old_data.push(new_data);
-
-
-
-        localStorage.setItem('AddedToCart', JSON.stringify(old_data));
-    }
+  
 
 
     return (
         <div style={{ background: '#f5f5f5' }}>
-
-
             <Typography style={{ fontWeight: 'bold', marginLeft: '45%', marginBottom: '1em' }} variant="h3">Products</Typography>
             <Box className={classes.container} >
                 {data.length === 0 && <Box mt={10} sx={{ height: '30em' }}><CircularProgress color="inherit" /></Box>}
