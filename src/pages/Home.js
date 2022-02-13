@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, makeStyles, Typography } from '@material-ui/core'
+import { Backdrop, Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, makeStyles, Typography } from '@material-ui/core'
 import CartIncreaser from '../components/CartIncreaser'
 import DetailsModal from '../components/DetailsModal'
 
@@ -82,8 +82,11 @@ function Home() {
 
     return (
         <div style={{ background: '#f5f5f5' }}>
+
+
             <Typography style={{ fontWeight: 'bold', marginLeft: '45%', marginBottom: '1em' }} variant="h3">Products</Typography>
             <Box className={classes.container} >
+                {data.length === 0 && <Box mt={10} sx={{ height: '30em' }}><CircularProgress color="inherit" /></Box>}
                 {data.map(product => {
                     return (
                         <Card className={classes.productCard}>
@@ -107,7 +110,7 @@ function Home() {
                     )
                 })}
 
-                {open && <DetailsModal open={open} handleClose={handleClose}  getModal={getModal} />}
+                {open && <DetailsModal open={open} handleClose={handleClose} getModal={getModal} />}
             </Box>
         </div>
 
