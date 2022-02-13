@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Backdrop, Box, Button, makeStyles, Modal, Typography } from '@material-ui/core'
+import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, makeStyles, Modal, Typography } from '@material-ui/core'
 import CartIncreaser from './CartIncreaser';
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles({
     button: {
-        background: 'lightblue',
+        background: 'green',
         color: 'white',
         wordWrap: 'normal',
         width: '10em',
         padding: '1em',
         "&:hover": {
-            background: 'blue',
+            background: 'lightgreen',
+            color:'black'
         }
+    },
+    dialogClose: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
     }
 
 })
@@ -50,41 +57,57 @@ function DetailsModal({ open, handleClose, getModal }) {
     }
 
     return (
-        <Modal
+        <Dialog
             open={open}
             onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
         >
-            <Box sx={style}>
-                <CloseIcon onClick={handleClose} />
-                <Typography id="modal-modal-title" variant="h3" component="h2">
-                    Product Details
-                </Typography>
-                <Box>
+            <DialogTitle className={classes.dialogClose}>
+                <IconButton style={{
+                    marginLeft: '22em',
+                    marginTop: '-1.3em'
+                }}
+                    onClick={handleClose}>
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText >
+                    <Typography style={{ textAlign: "center" }} id="modal-modal-title" variant="h3" component="h2">
+                        Product Details
+                    </Typography>
+                </DialogContentText>
+
+                <Box style={{ textAlign: 'center' }}>
                     <img style={{ height: '200px', width: '160px' }} src={getModal.image} alt="productImage" />
                 </Box>
-                <Typography variant="h5" sx={{ mt: 2 }}>
+                <Typography style={{ textAlign: "center", fontWeight: 'bold' }} variant="h5" sx={{ mt: 2 }}>
                     {getModal.title}
                 </Typography>
+                <Typography style={{ textAlign: "center", fontWeight: 'bold' }} variant="h5" sx={{ mt: 2 }}>
+
+                </Typography>
+                <Typography variant="subtitle1" >
+                    Description : {getModal.description}
+                </Typography>
                 <CartIncreaser setCartCount={setCartCount} />
+
+            </DialogContent>
+            <DialogActions style={{ justifyContent: 'center' }}>
                 <Button
                     onClick={(e) => {
                         addToCart(e, getModal.id, cartCount, getModal.image, getModal.title);
                         alert("product added to cart");
                         handleClose(false);
-                        // setHideAddToCart(true);
                     }}
                     className={classes.button}
-                    variant="contained"
+                    variant="outlined"
                     size="small">
                     <Typography>ADD TO CART</Typography>
                 </Button>
-            </Box>
-        </Modal >
+
+            </DialogActions>
+        </Dialog >
+
     )
 }
 

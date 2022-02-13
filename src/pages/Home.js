@@ -38,13 +38,13 @@ const useStyles = makeStyles({
         textAlign: 'center',
     },
     button: {
-        background: 'lightblue',
+        background: 'pink',
         color: 'white',
         wordWrap: 'normal',
         width: '10em',
         padding: '1em',
         "&:hover": {
-            background: 'blue',
+            background: 'hotpink',
         }
     }
 })
@@ -63,7 +63,7 @@ function Home() {
         })
     }, [])
 
-  
+
 
 
     return (

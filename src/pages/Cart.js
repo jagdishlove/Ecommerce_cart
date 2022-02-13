@@ -13,19 +13,17 @@ function Cart() {
         })
         const uniqueData = JSON.parse(localStorage.getItem("AddedToCart"))
         setLocalData(_.uniqBy(uniqueData, 'id'))
-
-
-
-
     }, [])
-    // const addToCart = data.filter(item => localData.includes(item.id));
-    // console.log(addToCart)
 
 
-    const removeCartItem = (id, e) => {
-        e.preventDefault();
-        localData.splice(id, 1);
-        localStorage.setItem('questions', JSON.stringify(localData));
+
+    const removeCartItem = (id) => {
+        const deleted = localData.filter((item, index) => {
+            return item.id !== id
+        })
+        setLocalData(deleted)
+        localStorage.setItem("AddedToCart", JSON.stringify(deleted));
+
 
     }
 
@@ -37,12 +35,12 @@ function Cart() {
                 localData?.map(item => {
                     console.log(item)
                     return (
-                        <Box p={2} sx={{ justifyContent: 'flex-start', alignItems: 'center' }} display="flex">
+                        <Box p={2} sx={{ width: '100%', justifyContent: 'space-around', alignItems: 'center' }} display="flex">
                             <img style={{ width: '10%' }} src={item.image} alt="product" />
                             <Typography>{item.title}</Typography>
                             <Typography>{item.price}</Typography>
-                            {/* <CartIncreaser /> */}
-                            <Button onClick={(e) => removeCartItem(localData.id, e)}>Remove</Button>
+                            <Typography>Quantity :{item.count}</Typography>
+                            <Button variant="outlined" style={{ border: '1px solid red', background: '#ffcccb' }} onClick={() => removeCartItem(item.id)}>Remove</Button>
                         </Box>
                     )
                 }) : <Box sx={{ height: '40em', }}><Typography variant="h5" style={{ opacity: '.5', marginLeft: '45%', marginTop: "10%" }}>No Product in Cart</Typography></Box>}
