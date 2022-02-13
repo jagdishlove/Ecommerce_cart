@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Box, Button, Card, CardActions, CardContent, CardMedia, makeStyles, Typography } from '@material-ui/core'
 import CartIncreaser from '../components/CartIncreaser'
+import DetailsModal from '../components/DetailsModal'
 
 const useStyles = makeStyles({
     productCard: {
@@ -50,6 +51,9 @@ const useStyles = makeStyles({
 function Home() {
     const [data, setData] = useState([])
     const [localData, setLocalData] = useState([]);
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
+    const [getModal, setGetModal] = React.useState()
     const classes = useStyles();
 
     useEffect(() => {
@@ -92,17 +96,18 @@ function Home() {
                                 <Typography style={{ fontWeight: 'bold' }} className={classes.title}>
                                     ₹{product.price}
                                 </Typography>
-                                <CartIncreaser />
                             </CardContent>
                             <CardActions>
                                 <Button onClick={() => {
-                                    setLocalData(product.id);
-                                    addToCart(product.id);
-                                }} variant="contained" className={classes.button} size="small"><Typography>ADD TO CART</Typography></Button>
+                                    setOpen(true);
+                                    setGetModal(product)
+                                }} variant="contained" className={classes.button} size="small"><Typography>Details</Typography></Button>
                             </CardActions>
                         </Card>
                     )
                 })}
+
+                {open && <DetailsModal open={open} handleClose={handleClose}  getModal={getModal} />}
             </Box>
         </div>
 
